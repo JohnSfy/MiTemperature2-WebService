@@ -28,4 +28,7 @@ export class SensorMeasurement {
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   timestamp!: Date;
+  
+  @Column({ type: 'numeric', precision: 5, scale: 2 })
+  raspberry_pi_temperature!: number;
 }
