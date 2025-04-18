@@ -1,14 +1,8 @@
-import { Injectable } from "@nestjs/common"
 import type { Repository } from "typeorm"
-import { InjectRepository } from "@nestjs/typeorm"
-import { SensorMeasurement } from "./sensor.entity"
+import type { SensorMeasurement } from "./sensor.entity"
 
-@Injectable()
 export class SensorService {
-  constructor(
-    @InjectRepository(SensorMeasurement)
-    private sensorRepo: Repository<SensorMeasurement>,
-  ) {}
+  constructor(private sensorRepo: Repository<SensorMeasurement>) {}
 
   async getAllMeasurements() {
     return await this.sensorRepo.find()
@@ -20,7 +14,7 @@ export class SensorService {
 
   async getLatestMeasurements(limit = 15000) {
     return await this.sensorRepo.find({
-      order: { timestamp: "DESC" },
+      order: { id: "DESC" }, // Order by ID instead of timestamp for better performance
       take: limit,
     })
   }
@@ -28,7 +22,7 @@ export class SensorService {
   async getLatestByRoom(room: string, limit = 15000) {
     return await this.sensorRepo.find({
       where: { sensor_name: room },
-      order: { timestamp: "DESC" },
+      order: { id: "DESC" }, // Order by ID instead of timestamp for better performance
       take: limit,
     })
   }
