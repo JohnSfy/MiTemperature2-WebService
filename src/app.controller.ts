@@ -1,12 +1,17 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Controller, Get, Param } from '@nestjs/common';
+import { SensorService } from './sensor.service';
 
-@Controller()
-export class AppController {
-  constructor(private readonly appService: AppService) {}
+@Controller('sensors')
+export class SensorController {
+  constructor(private readonly sensorService: SensorService) {}
 
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  getAll() {
+    return this.sensorService.getAllMeasurements();
+  }
+
+  @Get(':room')
+  getByRoom(@Param('room') room: string) {
+    return this.sensorService.getByRoom(room);
   }
 }
